@@ -18,6 +18,7 @@ namespace BlogAssignment.Models.Domain
         public DateTime DateUpdated { get; set; }
         public virtual ApplicationUser User { get; set; }
         public int PostId { get; set; }
+        public string MediaUrl { get; set; }
 
     }
 }

@@ -173,6 +173,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1897,6 +1898,7 @@
     <Content Include="TemplateContent\vendor\jquery\jquery.min.js" />
     <Content Include="TemplateContent\vendor\jquery\jquery.slim.js" />
     <Content Include="TemplateContent\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Upload\706dolphinanimal.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

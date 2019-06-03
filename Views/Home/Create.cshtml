@@ -7,20 +7,15 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script src="~/Scripts/Create.js"></script>
     
-    <script type="text/javascript">
-        $(function () {
-            tinymce.init({
-                selector: '#editor'
-            });
-        });
-    </script>
 
 }
 
 <h2>Create Post</h2>
 
-<form method="post">
+
+<form method="post" enctype="multipart/form-data">
     @Html.ValidationSummary(false)
 
     <div class="form-group">
@@ -28,13 +23,16 @@
         @Html.TextBoxFor(p => p.Title, new { @class = "form-control", placeholder = "Title" })
     </div>
 
-    <div id="editor"> </div>
+    
 
     <div class="form-group">
         @Html.LabelFor(p => p.Body, "Blog:")
         @Html.TextBoxFor(p => p.Body, new { @class = "form-control", placeholder = "Blog" })
     </div>
 
+    <div class="form-group">
+        <input type="file" name="Media" />
+    </div>
     <div class="form-group">
         @Html.LabelFor(p => p.Published, "Published")
         @Html.CheckBoxFor(p => p.Published, new { @class = "form-control" })

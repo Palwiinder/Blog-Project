@@ -4,6 +4,7 @@ using BlogAssignment.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +30,7 @@ namespace BlogAssignment.Controllers
                     Published = p.Published,
                     DateCreated = p.DateCreated,
                     DateUpdated = p.DateUpdated,
+                    MediaUrl = p.MediaUrl,
                     User = p.User,
                     PostId = p.PostId
                 }).ToList();
@@ -57,6 +59,21 @@ namespace BlogAssignment.Controllers
                 return View();
             }
 
+            string fileExtension;
+
+            //Validating file upload
+            if (formData.Media != null)
+            {
+                fileExtension = Path.GetExtension(formData.Media.FileName);
+
+                if (!Constants.AllowedFileExtensions.Contains(fileExtension))
+                {
+                    ModelState.AddModelError("", "File extension is not allowed.");
+
+                    return View();
+                }
+            }
+
 
             Post post;
 
@@ -78,10 +95,28 @@ namespace BlogAssignment.Controllers
             post.Body = formData.Body;
             post.Published = formData.Published;
             post.DateUpdated = DateTime.Now;
+
+            if (formData.Media != null)
+            {
+                if (!Directory.Exists(Constants.MappedUploadFolder))
+                {
+                    Directory.CreateDirectory(Constants.MappedUploadFolder);
+                }
+
+                var fileName = formData.Media.FileName;
+                var fullPathWithName = Constants.MappedUploadFolder + fileName;
+
+                formData.Media.SaveAs(fullPathWithName);
+
+                post.MediaUrl = Constants.UploadFolder + fileName;
+            }
+
             DbContext.SaveChanges();
 
             return RedirectToAction(nameof(HomeController.Index));
         }
+
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -103,6 +138,7 @@ namespace BlogAssignment.Controllers
             model.Title = post.Title;
             model.Body = post.Body;
             model.DateCreated = post.DateUpdated;
+            model.MediaUrl = post.MediaUrl;
 
             return View(model);
         }
@@ -130,8 +166,8 @@ namespace BlogAssignment.Controllers
             {
                 Title = post.Title,
                 Body = post.Body,
-                DateCreated = post.DateCreated
-
+                DateCreated = post.DateCreated,
+                MediaUrl = post.MediaUrl
             };
             return View(model);
         }

@@ -19,5 +19,6 @@ namespace BlogAssignment.Models.ViewModels
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public HttpPostedFileBase Media { get; set; }
+        public string MediaUrl { get; set; }
     }
 }
